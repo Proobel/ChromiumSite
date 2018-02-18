@@ -5,6 +5,15 @@
     <UserSecretsId>aspnet-ChromiumSite-EFA29147-A236-42BB-93B5-4917C23A04EE</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20180218154343_Initial.cs" />
+    <Compile Remove="Data\Migrations\20180218154343_Initial.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180218162731_Initial.cs" />
+    <Compile Remove="Data\Migrations\20180218162731_Initial.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180218163031_Initial.cs" />
+    <Compile Remove="Data\Migrations\20180218163031_Initial.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
