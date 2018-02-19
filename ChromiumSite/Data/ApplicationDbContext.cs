@@ -11,7 +11,6 @@ namespace ChromiumSite.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         DbSet<AquaImage> AquaImages { get; set; }
-        DbSet<RGBModel> RGBModels { get; set; }
         DbSet<AquaProposalModel> AquaProposalModels { get; set; }
         DbSet<ChromeProposalModel> ChromeProposalModels { get; set; }
 

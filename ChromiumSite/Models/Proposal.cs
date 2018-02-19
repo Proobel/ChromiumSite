@@ -16,5 +16,8 @@ namespace ChromiumSite.Models
 
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
+
+        [StringLength(400)]
+        public string Notes { get; set; }
     }
 }

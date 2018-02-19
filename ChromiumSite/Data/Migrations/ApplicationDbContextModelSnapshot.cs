@@ -96,6 +96,9 @@ namespace ChromiumSite.Data.Migrations
 
                     b.Property<int>("ImageID");
 
+                    b.Property<string>("Notes")
+                        .HasMaxLength(400);
+
                     b.Property<string>("Status")
                         .HasMaxLength(50);
 
@@ -115,11 +118,14 @@ namespace ChromiumSite.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ColorId");
+                    b.Property<string>("Color");
 
                     b.Property<DateTime>("Created_at")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(400);
 
                     b.Property<string>("Status")
                         .HasMaxLength(50);
@@ -128,27 +134,9 @@ namespace ChromiumSite.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ColorId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("ChromeProposalModels");
-                });
-
-            modelBuilder.Entity("ChromiumSite.Models.RGBModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Blue");
-
-                    b.Property<int>("Green");
-
-                    b.Property<int>("Red");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RGBModels");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -273,10 +261,6 @@ namespace ChromiumSite.Data.Migrations
 
             modelBuilder.Entity("ChromiumSite.Models.ChromeProposalModel", b =>
                 {
-                    b.HasOne("ChromiumSite.Models.RGBModel", "Color")
-                        .WithMany()
-                        .HasForeignKey("ColorId");
-
                     b.HasOne("ChromiumSite.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");

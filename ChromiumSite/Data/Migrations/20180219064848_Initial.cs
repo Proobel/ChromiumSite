@@ -36,18 +36,26 @@ namespace ChromiumSite.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RGBModels",
+                name: "ChromeProposalModels",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Blue = table.Column<int>(nullable: false),
-                    Green = table.Column<int>(nullable: false),
-                    Red = table.Column<int>(nullable: false)
+                    Color = table.Column<string>(nullable: true),
+                    Created_at = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    Notes = table.Column<string>(maxLength: 400, nullable: true),
+                    Status = table.Column<string>(maxLength: 50, nullable: true),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RGBModels", x => x.Id);
+                    table.PrimaryKey("PK_ChromeProposalModels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChromeProposalModels_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,6 +66,7 @@ namespace ChromiumSite.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Created_at = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
                     ImageID = table.Column<int>(nullable: false),
+                    Notes = table.Column<string>(maxLength: 400, nullable: true),
                     Status = table.Column<string>(maxLength: 50, nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -72,34 +81,6 @@ namespace ChromiumSite.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AquaProposalModels_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ChromeProposalModels",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ColorId = table.Column<int>(nullable: true),
-                    Created_at = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    Status = table.Column<string>(maxLength: 50, nullable: true),
-                    UserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChromeProposalModels", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ChromeProposalModels_RGBModels_ColorId",
-                        column: x => x.ColorId,
-                        principalTable: "RGBModels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ChromeProposalModels_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -131,11 +112,6 @@ namespace ChromiumSite.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChromeProposalModels_ColorId",
-                table: "ChromeProposalModels",
-                column: "ColorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ChromeProposalModels_UserId",
                 table: "ChromeProposalModels",
                 column: "UserId");
@@ -163,9 +139,6 @@ namespace ChromiumSite.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AquaImages");
-
-            migrationBuilder.DropTable(
-                name: "RGBModels");
 
             migrationBuilder.DropIndex(
                 name: "UserNameIndex",

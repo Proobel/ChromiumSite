@@ -491,6 +491,21 @@ namespace ChromiumSite.Controllers
             return View(nameof(ShowRecoveryCodes), model);
         }
 
+
+        [HttpGet]
+        public IActionResult AquaProposition()
+        {
+            var model = new CreateAquaPropositionViewModel { };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AquaProposition(CreateAquaPropositionViewModel model)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
@@ -542,4 +557,5 @@ namespace ChromiumSite.Controllers
 
         #endregion
     }
+
 }
