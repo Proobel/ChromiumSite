@@ -506,6 +506,20 @@ namespace ChromiumSite.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public IActionResult ChromeProposition()
+        {
+            var model = new CreateChromePropositionViewModel { };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChromeProposition(CreateChromePropositionViewModel model)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)

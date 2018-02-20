@@ -21,6 +21,8 @@ namespace ChromiumSite.Views.Manage
 
         public static string AquaProposition => "AquaProposition";
 
+        public static string ChromeProposition => "ChromeProposition";
+
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
@@ -29,7 +31,9 @@ namespace ChromiumSite.Views.Manage
 
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
 
-        public static string AquaPropositionNavClass(ViewContext viewContext) => PageNavClass(viewContext, ActivePageKey);
+        public static string AquaPropositionNavClass(ViewContext viewContext) => PageNavClass(viewContext, AquaProposition);
+
+        public static string ChromePropositionNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChromeProposition);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {
