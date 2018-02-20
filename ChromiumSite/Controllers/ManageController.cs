@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using ChromiumSite.Models;
 using ChromiumSite.Models.ManageViewModels;
 using ChromiumSite.Services;
+using ChromiumSite.Data;
 
 namespace ChromiumSite.Controllers
 {
@@ -25,6 +26,7 @@ namespace ChromiumSite.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly ApplicationDbContext _db;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
@@ -34,13 +36,16 @@ namespace ChromiumSite.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          ApplicationDbContext dbContext
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _db = dbContext;
         }
 
         [TempData]
@@ -503,21 +508,32 @@ namespace ChromiumSite.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AquaProposition(CreateAquaPropositionViewModel model)
         {
+
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
         public IActionResult ChromeProposition()
         {
-            var model = new CreateChromePropositionViewModel { };
+            var model = new CreateChromePropositionViewModel { StatusMessage = StatusMessage };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ChromeProposition(CreateChromePropositionViewModel model)
+        public async Task<IActionResult> ChromeProposition(CreateChromePropositionViewModel model)
         {
-            return RedirectToAction(nameof(Index));
+            var user = await _userManager.GetUserAsync(User);
+            var ChromeModel = new ChromeProposalModel();
+            ChromeModel.Color = model.Color;
+            ChromeModel.Notes = model.Notes;
+            ChromeModel.Status = "Pending";
+            ChromeModel.User = user ?? throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            ChromeModel.UserId = user.Id;
+            _db.ChromeProposalModels.Add(ChromeModel);
+            await _db.SaveChangesAsync();
+            StatusMessage = "Your proposition has been sended";
+            return RedirectToAction(nameof(ChromeProposition));
         }
 
         #region Helpers

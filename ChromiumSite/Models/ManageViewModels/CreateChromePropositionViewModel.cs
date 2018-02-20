@@ -10,5 +10,7 @@ namespace ChromiumSite.Models.ManageViewModels
     {
         [Display(Name = "Color")]
         public string Color { get; set; }
+
+        public string StatusMessage { get; set; }
     }
 }

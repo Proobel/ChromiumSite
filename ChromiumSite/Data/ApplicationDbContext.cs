@@ -10,9 +10,9 @@ namespace ChromiumSite.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        DbSet<AquaImage> AquaImages { get; set; }
-        DbSet<AquaProposalModel> AquaProposalModels { get; set; }
-        DbSet<ChromeProposalModel> ChromeProposalModels { get; set; }
+        public DbSet<AquaImage> AquaImages { get; set; }
+        public DbSet<AquaProposalModel> AquaProposalModels { get; set; }
+        public DbSet<ChromeProposalModel> ChromeProposalModels { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
