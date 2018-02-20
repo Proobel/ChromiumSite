@@ -22,17 +22,25 @@ namespace ChromiumSite.Data.Migrations
                 table: "AspNetRoles");
 
             migrationBuilder.CreateTable(
-                name: "AquaImages",
+                name: "AquaProposalModels",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Is_Template = table.Column<bool>(nullable: false),
-                    PathToImage = table.Column<string>(nullable: true)
+                    Created_at = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    Notes = table.Column<string>(maxLength: 400, nullable: true),
+                    Status = table.Column<string>(maxLength: 50, nullable: true),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AquaImages", x => x.Id);
+                    table.PrimaryKey("PK_AquaProposalModels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AquaProposalModels_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,32 +67,24 @@ namespace ChromiumSite.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AquaProposalModels",
+                name: "AquaImages",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Created_at = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    ImageID = table.Column<int>(nullable: false),
-                    Notes = table.Column<string>(maxLength: 400, nullable: true),
-                    Status = table.Column<string>(maxLength: 50, nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    AquaProposalId = table.Column<int>(nullable: false),
+                    Is_Template = table.Column<bool>(nullable: false),
+                    PathToImage = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AquaProposalModels", x => x.Id);
+                    table.PrimaryKey("PK_AquaImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AquaProposalModels_AquaImages_ImageID",
-                        column: x => x.ImageID,
-                        principalTable: "AquaImages",
+                        name: "FK_AquaImages_AquaProposalModels_AquaProposalId",
+                        column: x => x.AquaProposalId,
+                        principalTable: "AquaProposalModels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AquaProposalModels_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -102,9 +102,9 @@ namespace ChromiumSite.Data.Migrations
                 filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AquaProposalModels_ImageID",
-                table: "AquaProposalModels",
-                column: "ImageID");
+                name: "IX_AquaImages_AquaProposalId",
+                table: "AquaImages",
+                column: "AquaProposalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AquaProposalModels_UserId",
@@ -132,13 +132,13 @@ namespace ChromiumSite.Data.Migrations
                 table: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AquaProposalModels");
+                name: "AquaImages");
 
             migrationBuilder.DropTable(
                 name: "ChromeProposalModels");
 
             migrationBuilder.DropTable(
-                name: "AquaImages");
+                name: "AquaProposalModels");
 
             migrationBuilder.DropIndex(
                 name: "UserNameIndex",

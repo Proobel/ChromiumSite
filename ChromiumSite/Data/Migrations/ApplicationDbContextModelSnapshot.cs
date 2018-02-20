@@ -76,11 +76,15 @@ namespace ChromiumSite.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AquaProposalId");
+
                     b.Property<bool>("Is_Template");
 
                     b.Property<string>("PathToImage");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AquaProposalId");
 
                     b.ToTable("AquaImages");
                 });
@@ -94,8 +98,6 @@ namespace ChromiumSite.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("getdate()");
 
-                    b.Property<int>("ImageID");
-
                     b.Property<string>("Notes")
                         .HasMaxLength(400);
 
@@ -105,8 +107,6 @@ namespace ChromiumSite.Data.Migrations
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageID");
 
                     b.HasIndex("UserId");
 
@@ -247,13 +247,16 @@ namespace ChromiumSite.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ChromiumSite.Models.AquaImage", b =>
+                {
+                    b.HasOne("ChromiumSite.Models.AquaProposalModel", "AquaProposal")
+                        .WithMany()
+                        .HasForeignKey("AquaProposalId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("ChromiumSite.Models.AquaProposalModel", b =>
                 {
-                    b.HasOne("ChromiumSite.Models.AquaImage", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("ChromiumSite.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");

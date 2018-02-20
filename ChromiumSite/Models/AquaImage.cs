@@ -10,5 +10,7 @@ namespace ChromiumSite.Models
         public int Id { get; set; }
         public string PathToImage { get; set; }
         public bool Is_Template { get; set; }
+        public int AquaProposalId { get; set; }
+        public AquaProposalModel AquaProposal { get; set; }
     }
 }

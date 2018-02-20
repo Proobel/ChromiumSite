@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,9 @@ using ChromiumSite.Models;
 using ChromiumSite.Models.ManageViewModels;
 using ChromiumSite.Services;
 using ChromiumSite.Data;
+using Microsoft.AspNetCore.Http;
+
+using Microsoft.AspNetCore.Hosting;
 
 namespace ChromiumSite.Controllers
 {
@@ -27,6 +31,7 @@ namespace ChromiumSite.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
         private readonly ApplicationDbContext _db;
+        IHostingEnvironment _hostingEnvironment;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
@@ -37,7 +42,9 @@ namespace ChromiumSite.Controllers
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder,
-          ApplicationDbContext dbContext
+          ApplicationDbContext dbContext,
+          IHostingEnvironment hostingEnvironment
+
             )
         {
             _userManager = userManager;
@@ -46,6 +53,7 @@ namespace ChromiumSite.Controllers
             _logger = logger;
             _urlEncoder = urlEncoder;
             _db = dbContext;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [TempData]
@@ -500,16 +508,42 @@ namespace ChromiumSite.Controllers
         [HttpGet]
         public IActionResult AquaProposition()
         {
-            var model = new CreateAquaPropositionViewModel { };
+            var model = new CreateAquaPropositionViewModel { StatusMessage = StatusMessage };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AquaProposition(CreateAquaPropositionViewModel model)
+        public async Task<IActionResult> AquaProposition(CreateAquaPropositionViewModel model)
         {
+            var AquaModel = new AquaProposalModel();
+            var user = await _userManager.GetUserAsync(User);
+            AquaModel.User = user ?? throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            AquaModel.UserId = user.Id;
+            AquaModel.Notes = model.Notes;
+            AquaModel.Status = "Pending";
+            _db.AquaProposalModels.Add(AquaModel);
+            await _db.SaveChangesAsync();
+            var Image = new AquaImage();
+            Image.Is_Template = false;
+            Image.PathToImage = await SaveImg(model.File);
+            var savedModel = _db.AquaProposalModels.Last();
+            Image.AquaProposal = savedModel;
+            Image.AquaProposalId = savedModel.Id;
+            _db.AquaImages.Add(Image);
+            await _db.SaveChangesAsync();
+            StatusMessage = "Your proposition has been sended";
+            return RedirectToAction(nameof(AquaProposition));
+        }
 
-            return RedirectToAction(nameof(Index));
+        private async Task<string> SaveImg(IFormFile file)
+        {
+            string path =_hostingEnvironment.WebRootPath+ "/images/useraqua/" + DateTime.Now.ToString("yyyyMMddHHmmssfff")+ file.FileName;
+            using (var fileStream = new FileStream(path,FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+            return path;
         }
 
         [HttpGet]

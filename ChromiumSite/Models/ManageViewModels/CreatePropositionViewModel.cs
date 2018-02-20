@@ -11,5 +11,7 @@ namespace ChromiumSite.Models.ManageViewModels
         [StringLength(400,ErrorMessage = "The {0} must be at max {1} characters long.")]
         [Display(Name = "Notes")]
         public string Notes { get; set; }
+
+        public string StatusMessage { get; set; }
     }
 }

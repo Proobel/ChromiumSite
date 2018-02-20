@@ -4,8 +4,8 @@
     ViewData.AddActivePage(ManageNavPages.AquaProposition);
 }
 
-<h2>AquaProposition</h2>
 <h4>@ViewData["Title"]</h4>
+@Html.Partial("_StatusMessage", Model.StatusMessage)
 <div class="row">
     <div class="col-md-6">
         <form method="post" enctype="multipart/form-data">
@@ -29,6 +29,7 @@
         </form>
     </div>
 </div>
+
 @section Scripts {
     <script src="~/js/ImageValidation.js" asp-append-version="true"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
