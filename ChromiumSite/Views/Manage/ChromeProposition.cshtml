@@ -25,7 +25,30 @@
         </form>
     </div>
 </div>
-
+<div class="row">
+    <h2>Your Chrome Propositions</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Notes</th>
+                <th>Date</th>
+                <th>Color</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chrome in ViewBag.ChromePropositions)
+            {
+                <tr>
+                    <td>@chrome.Status</td>
+                    <td>@chrome.Notes</td>
+                    <td>@chrome.Created_at</td>
+                    <td><input type="color" value="#@chrome.Color" disabled/></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 @section Scripts {
     <script src="~/js/jscolor.min.js" asp-append-version="true"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")

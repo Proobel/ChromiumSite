@@ -29,6 +29,28 @@
         </form>
     </div>
 </div>
+<div class="row">
+        <h2>Your Aqua Propositions</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Notes</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var aqua in ViewBag.AquaPropositions)
+                {
+                    <tr>
+                        <td>@aqua.Status</td>
+                        <td>@aqua.Notes</td>
+                        <td>@aqua.Created_at</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>
 
 @section Scripts {
     <script src="~/js/ImageValidation.js" asp-append-version="true"></script>

@@ -506,8 +506,15 @@ namespace ChromiumSite.Controllers
 
 
         [HttpGet]
-        public IActionResult AquaProposition()
+        public async Task<IActionResult> AquaProposition()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            ViewBag.AquaPropositions = _db.AquaProposalModels.Where(x=>x.UserId  == user.Id);
+
             var model = new CreateAquaPropositionViewModel { StatusMessage = StatusMessage };
             return View(model);
         }
@@ -547,8 +554,14 @@ namespace ChromiumSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult ChromeProposition()
+        public async Task<IActionResult> ChromeProposition()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            ViewBag.ChromePropositions = _db.ChromeProposalModels.Where(x => x.UserId == user.Id);
             var model = new CreateChromePropositionViewModel { StatusMessage = StatusMessage };
             return View(model);
         }
