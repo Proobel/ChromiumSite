@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Gallery";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="container">
+    <h1 class="my-4 text-center text-lg-left">Thumbnail Gallery</h1>
+    <div class="row text-center text-lg-left">
+        @for (int i = 1; i <= 15; ++i)
+    {
+        string s = i + ".jpg";
+        <div class="col-lg-3 col-md-4 col-xs-6">
+            <a href="#" class="d-block mb-4 h-100">
+                <img class="img-responsive img-thumbnail " src="~/images/Gallery/@s" alt="">
+            </a>
+        </div>
+}
+    </div>
+</div>

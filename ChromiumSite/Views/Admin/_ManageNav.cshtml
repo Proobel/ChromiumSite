@@ -1,4 +1,5 @@
-﻿@using ChromiumSite.Views.Manage
+﻿@using ChromiumSite.Views.Admin
+
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
@@ -13,9 +14,5 @@
     }
     <li class="@ManageNavPages.AquaPropositionNavClass(ViewContext)"><a asp-action="AquaProposition">AquaPrint Proposition</a></li>
     <li class="@ManageNavPages.ChromePropositionNavClass(ViewContext)"><a asp-action="ChromeProposition">Chrome Proposition</a></li>
-    @if (await SignInManager.UserManager.IsInRoleAsync(await SignInManager.UserManager.GetUserAsync(User), "Administrator"))
-    {
-        <li><a asp-controller="Admin" asp-action="Index">Admin Panel</a></li>
-    }
 </ul>
 

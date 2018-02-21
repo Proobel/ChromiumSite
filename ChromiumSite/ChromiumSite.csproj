@@ -22,6 +22,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="bootstrap" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
@@ -36,6 +37,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\useraqua\" />
     <Folder Include="wwwroot\images\aquatemplates\" />
+    <Folder Include="wwwroot\images\Gallery\" />
   </ItemGroup>
 
 </Project>

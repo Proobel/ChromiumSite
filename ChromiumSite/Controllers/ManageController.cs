@@ -579,7 +579,6 @@ namespace ChromiumSite.Controllers
             ChromeModel.UserId = user.Id;
             _db.ChromeProposalModels.Add(ChromeModel);
             await _db.SaveChangesAsync();
-            StatusMessage = "Your proposition has been sended";
             return RedirectToAction(nameof(ChromeProposition));
         }
 
