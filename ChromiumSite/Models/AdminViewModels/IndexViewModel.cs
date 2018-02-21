@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChromiumSite.Models.AdminViewModels
 {
-    public class IndexViewModel
+    public class AdminIndexViewModel
     {
         public string StatusMessage { get; set; }
     }
