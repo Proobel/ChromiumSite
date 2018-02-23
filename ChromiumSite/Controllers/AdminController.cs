@@ -10,6 +10,7 @@ using ChromiumSite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using ChromiumSite.Models.AdminViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace ChromiumSite.Controllers
 {
@@ -102,7 +103,7 @@ namespace ChromiumSite.Controllers
                                     IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
                                     if (newRoleResult.Succeeded)
                                     {
-                                        return RedirectToAction("Index");
+                                        return RedirectToAction("UserChanges");
                                     }
                                 }
                             }
@@ -111,6 +112,42 @@ namespace ChromiumSite.Controllers
                 }
             }
             return PartialView("_EditUser", model);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteUserForm(string id)
+        {
+            var delete = new DeleteUserViewModel();
+            delete.Id = id;
+            if (!String.IsNullOrEmpty(id))
+            {
+                ApplicationUser applicationUser = await _userManager.FindByIdAsync(id);
+                if (applicationUser != null)
+                {
+                    delete.Name = applicationUser.UserName;
+                }
+            }
+            return PartialView("_DeleteUser", delete);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(DeleteUserViewModel deleteUser)
+        {
+
+            if (!String.IsNullOrEmpty(deleteUser.Id))
+            {
+                ApplicationUser applicationUser = await _userManager.FindByIdAsync(deleteUser.Id);
+                if (applicationUser != null)
+                {
+                    IdentityResult result = await _userManager.DeleteAsync(applicationUser);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction(nameof(UserChanges));
+                    }
+                }
+            }
+            return RedirectToAction(nameof(UserChanges));
         }
     }
 }

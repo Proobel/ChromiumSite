@@ -1,0 +1,13 @@
+﻿@model DeleteUserViewModel
+
+<form asp-action="DeleteUser" role="form">
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Delete User" })
+
+    <div class="modal-body form-horizontal">
+        Are you want to delete @Model.Name?
+        <div hidden>
+            <input asp-for="Id" class="form-control" hidden="hidden" />
+        </div>
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Delete" })
+</form>
