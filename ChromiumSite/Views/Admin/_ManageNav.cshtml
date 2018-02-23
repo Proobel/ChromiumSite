@@ -8,11 +8,8 @@
 <ul class="nav nav-pills nav-stacked">
     <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Proposition Manager</a></li>
     <li class="@ManageNavPages.UserChangesNavClass(ViewContext)"><a asp-action="UserChanges">User Manager</a></li>
-    @if (hasExternalLogins)
-    {
-        <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a asp-action="ExternalLogins">External logins</a></li>
-    }
-    <li class="@ManageNavPages.AquaPropositionNavClass(ViewContext)"><a asp-action="AquaProposition">AquaPrint Proposition</a></li>
-    <li class="@ManageNavPages.ChromePropositionNavClass(ViewContext)"><a asp-action="ChromeProposition">Chrome Proposition</a></li>
+    <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a asp-action="ExternalLogins">Manage Home News</a></li>
+    <li class="@ManageNavPages.AquaPropositionNavClass(ViewContext)"><a asp-action="AquaProposition">Manage Aquaprint Templates</a></li>
+    <li class="@ManageNavPages.ChromePropositionNavClass(ViewContext)"><a asp-action="ChromeProposition">Manage Gallery</a></li>
 </ul>
 

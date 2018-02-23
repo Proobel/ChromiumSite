@@ -43,14 +43,74 @@ namespace ChromiumSite.Controllers
         public IActionResult UserChanges()
         {
             List<UserListViewModel> model = new List<UserListViewModel>();
-            model =_userManager.Users.Select(u => new UserListViewModel
+            model = _userManager.Users.Select(u => new UserListViewModel
             {
                 Id = u.Id,
                 Name = u.UserName,
                 Email = u.Email,
-                PhoneNumber=u.PhoneNumber
+                PhoneNumber = u.PhoneNumber
             }).ToList();
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string id)
+        {
+            EditUserViewModel model = new EditUserViewModel();
+            model.ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.Id
+            }).ToList();
+
+            if (!String.IsNullOrEmpty(id))
+            {
+                ApplicationUser user = await _userManager.FindByIdAsync(id);
+                if (user != null)
+                {
+                    model.Name = user.UserName;
+                    model.Email = user.Email;
+                    model.ApplicationRoleId = _roleManager.Roles.Single(r => r.Name == _userManager.GetRolesAsync(user).Result.Single()).Id;
+                }
+            }
+            return PartialView("_EditUser", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(string id, EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = await _userManager.FindByIdAsync(id);
+                if (user != null)
+                {
+                    user.UserName = model.Name;
+                    user.Email = model.Email;
+                    string existingRole = _userManager.GetRolesAsync(user).Result.Single();
+                    string existingRoleId = _roleManager.Roles.Single(r => r.Name == existingRole).Id;
+                    IdentityResult result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        if (existingRoleId != model.ApplicationRoleId)
+                        {
+                            IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);
+                            if (roleResult.Succeeded)
+                            {
+                                var applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
+                                if (applicationRole != null)
+                                {
+                                    IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
+                                    if (newRoleResult.Succeeded)
+                                    {
+                                        return RedirectToAction("Index");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return PartialView("_EditUser", model);
         }
     }
 }

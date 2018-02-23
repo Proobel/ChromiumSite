@@ -1,41 +1,12 @@
-﻿@*@model UserListViewModel
-    @{
-        ViewData["Title"] = "User Manager";
-        ViewData.AddActivePage(ManageNavPages.UserChanges);
-    }
+﻿@model IEnumerable<UserListViewModel>
+@using ChromiumSite.Models.AdminViewModels
+@using ChromiumSite.Components
+@{
+    ViewData["Title"] = "User Manager";
+    ViewData.AddActivePage(ManageNavPages.UserChanges);
+}
 
-    <h4>@ViewData["Title"]</h4>
-    @Html.Partial("_StatusMessage", Model.StatusMessage)
-    <div class="row">
-        <div class="col-md-6">
-            <form method="post">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="OldPassword"></label>
-                    <input asp-for="OldPassword" class="form-control" />
-                    <span asp-validation-for="OldPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NewPassword"></label>
-                    <input asp-for="NewPassword" class="form-control" />
-                    <span asp-validation-for="NewPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConfirmPassword"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn btn-default">Update password</button>
-            </form>
-        </div>
-    </div>
-
-    @section Scripts {
-        @await Html.PartialAsync("_ValidationScriptsPartial")
-    }*@
-
-@model IEnumerable<UserListViewModel>
-
+<h4>@ViewData["Title"]</h4>
 <div class="top-buffer"></div>
 <div class="panel panel-primary">
     <div class="panel-heading panel-head">Users</div>
@@ -57,27 +28,26 @@
             </thead>
             <tbody>
                 @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Email</td>
-                    <td>
-                        <a id="editUserModal" data-toggle="modal" asp-action="EditUser" asp-route-id="@item.Id" data-target="#modal-action-user"
-                           class="btn btn-info">
-                            <i class="glyphicon glyphicon-pencil"></i>  Edit
-                        </a>
-                        <a id="deleteUserModal" data-toggle="modal" asp-action="DeleteUser" asp-route-id="@item.Id" data-target="#modal-action-user" class="btn btn-danger">
-                            <i class="glyphicon glyphicon-trash"></i>  Delete
-                        </a>
-                    </td>
-                </tr>
-        }
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Email</td>
+                        <td>
+                            <a id="editUserModal" data-toggle="modal" asp-action="EditUser" asp-route-id="@item.Id" data-target="#modal-action-user" class="btn btn-info">
+                                <i class="glyphicon glyphicon-pencil"></i>  Edit
+                            </a>
+                            <a id="deleteUserModal" data-toggle="modal" asp-action="DeleteUser" asp-route-id="@item.Id" data-target="#modal-action-user" class="btn btn-danger">
+                                <i class="glyphicon glyphicon-trash"></i>  Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
 </div>
-
+@Html.Partial("_Modal", new BootstrapModel { Id = "modal-action-user", AreaLabeledId = "modal-action-user-label", Size = ModalSize.Medium })
 @section scripts
     {
-    <script src="~/js/user-index.js" asp-append-version="true"></script>
+    <script src="~/js/UserIndex.js" asp-append-version="true"></script>
 }
