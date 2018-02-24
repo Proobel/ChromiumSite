@@ -13,6 +13,7 @@ namespace ChromiumSite.Data
         public DbSet<AquaImage> AquaImages { get; set; }
         public DbSet<AquaProposalModel> AquaProposalModels { get; set; }
         public DbSet<ChromeProposalModel> ChromeProposalModels { get; set; }
+        public DbSet<GalleryImage> GalleryImages { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

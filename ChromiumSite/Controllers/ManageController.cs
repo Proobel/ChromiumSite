@@ -16,7 +16,6 @@ using ChromiumSite.Models.ManageViewModels;
 using ChromiumSite.Services;
 using ChromiumSite.Data;
 using Microsoft.AspNetCore.Http;
-
 using Microsoft.AspNetCore.Hosting;
 
 namespace ChromiumSite.Controllers
@@ -31,6 +30,7 @@ namespace ChromiumSite.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
         private readonly ApplicationDbContext _db;
+        private readonly IFileWorker _fileWorker;
         IHostingEnvironment _hostingEnvironment;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
@@ -43,8 +43,8 @@ namespace ChromiumSite.Controllers
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder,
           ApplicationDbContext dbContext,
-          IHostingEnvironment hostingEnvironment
-
+          IHostingEnvironment hostingEnvironment,
+          IFileWorker fileWorker
             )
         {
             _userManager = userManager;
@@ -54,6 +54,7 @@ namespace ChromiumSite.Controllers
             _urlEncoder = urlEncoder;
             _db = dbContext;
             _hostingEnvironment = hostingEnvironment;
+            _fileWorker = fileWorker;
         }
 
         [TempData]
@@ -533,7 +534,7 @@ namespace ChromiumSite.Controllers
             await _db.SaveChangesAsync();
             var Image = new AquaImage();
             Image.Is_Template = false;
-            Image.PathToImage = await SaveImg(model.File);
+            Image.PathToImage = await _fileWorker.SaveImgAsync("/images/useraqua/",model.File);
             var savedModel = _db.AquaProposalModels.Last();
             Image.AquaProposal = savedModel;
             Image.AquaProposalId = savedModel.Id;
@@ -541,16 +542,6 @@ namespace ChromiumSite.Controllers
             await _db.SaveChangesAsync();
             StatusMessage = "Your proposition has been sended";
             return RedirectToAction(nameof(AquaProposition));
-        }
-
-        private async Task<string> SaveImg(IFormFile file)
-        {
-            string path =_hostingEnvironment.WebRootPath+ "/images/useraqua/" + DateTime.Now.ToString("yyyyMMddHHmmssfff")+ file.FileName;
-            using (var fileStream = new FileStream(path,FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
-            return path;
         }
 
         [HttpGet]

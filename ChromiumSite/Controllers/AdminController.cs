@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using ChromiumSite.Models.AdminViewModels;
 using Microsoft.AspNetCore.Http;
+using ChromiumSite.Services;
 
 namespace ChromiumSite.Controllers
 {
@@ -19,19 +20,22 @@ namespace ChromiumSite.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private ApplicationDbContext _db;
-
+        private readonly ApplicationDbContext _db;
+        private readonly IFileWorker _fileWorker;
 
         public AdminController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
-            ApplicationDbContext db)
+            ApplicationDbContext db,
+             IFileWorker fileWorker
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _db = db;
+            _fileWorker = fileWorker;
         }
 
         [HttpGet]
@@ -149,5 +153,8 @@ namespace ChromiumSite.Controllers
             }
             return RedirectToAction(nameof(UserChanges));
         }
+
+
+
     }
 }
