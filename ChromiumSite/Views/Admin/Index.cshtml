@@ -1,12 +1,139 @@
 ﻿@model AdminIndexViewModel
+
 @{
     ViewData["Title"] = "Profile";
     ViewData.AddActivePage(ManageNavPages.Index);
 }
 
 <h4>@ViewData["Title"]</h4>
-
+<ul id="myTab" class="nav nav-tabs">
+    <li class=""><a href="#aqua" data-toggle="tab">Aqua</a></li>
+    <li class="active"><a href="#chrome" data-toggle="tab">Chrome</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div id="aqua" class="tab-pane fade">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Notes</th>
+                            <th>Status</th>
+                            <th>Image</th>
+                            <th>Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.AquaPropositions)
+                        {
+                            @switch (item.Status)
+                            {
+                                case "Pending": ViewData["Status"] = "warning"; break;
+                                case "Success": ViewData["Status"] = "success"; break;
+                                case "Reject": ViewData["Status"] = "danger"; break;
+                                case"Complete":ViewData["Status"] = "info"; break;
+                            }
+                            <tr class=@ViewData["Status"]>
+                                <td>
+                                    @item.User
+                                </td>
+                                <td>
+                                    @item.Notes
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-@ViewData["Status"]">@item.Status</button>
+                                        <button type="button" class="btn btn-@ViewData["Status"] dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a asp-action="ChangeStatus" asp-all-route-data='new Dictionary<string,string> { { "Id", item.Id+"" }, {"status", "Pending" }, { "model", "aqua" } }'>Pending</a></li>
+                                            <li><a asp-action="ChangeStatus" asp-all-route-data='new Dictionary<string,string> { { "Id", item.Id+"" }, {"status", "Success" }, { "model", "aqua" } }'>Success</a></li>
+                                            <li><a asp-action="ChangeStatus" asp-all-route-data='new Dictionary<string,string> { { "Id", item.Id+"" }, {"status", "Reject" }, { "model", "aqua" } }'>Reject</a></li>
+                                            <li><a asp-action="ChangeStatus" asp-all-route-data='new Dictionary<string,string> { { "Id", item.Id+"" }, {"status", "Complete" }, { "model", "aqua" } }'>Complete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                    //TODO Image
+                                </td>
+                                <td>
+                                    @item.Created_at
+                                </td>
+                                <td>
+                                    <a asp-action="DeleteProposition" asp-route-id="@item.Id" asp-route-model="aqua" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-trash"></i>  Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+    <div id="chrome" class="tab-pane fade active in">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Notes</th>
+                    <th>Status</th>
+                    <th>Color</th>
+                    <th>Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.ChromePropositions)
+                            {
+                                @switch(item.Status)
+                                {
+                                    case "Pending": ViewData["Status"] = "warning";break;
+                                    case "Success": ViewData["Status"] = "success"; break;
+                                    case "Reject": ViewData["Status"] = "danger"; break;
+                                    case "Complete": ViewData["Status"] = "info"; break;
+                                }
+                    <tr class=@ViewData["Status"]>
+                        <td>
+                            @item.User
+                        </td>
+                        <td>
+                            @item.Notes
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-@ViewData["Status"]">@item.Status</button>
+                                <button type="button" class="btn btn-@ViewData["Status"] dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-action="ChangeStatus" asp-all-route-data='new Dictionary<string,string> { { "Id", item.Id+"" }, {"status", "Pending" }, { "model", "chrome" } }'>Pending</a></li>
+                                    <li><a asp-action="ChangeStatus" asp-all-route-data='new Dictionary<string,string> { { "Id", item.Id+"" }, {"status", "Success" }, { "model", "chrome" } }'>Success</a></li>
+                                    <li><a asp-action="ChangeStatus" asp-all-route-data='new Dictionary<string,string> { { "Id", item.Id+"" }, {"status", "Reject" }, { "model", "chrome" } }'>Reject</a></li>
+                                    <li><a asp-action="ChangeStatus" asp-all-route-data='new Dictionary<string,string> { { "Id", item.Id+"" }, {"status", "Complete" }, { "model", "chrome" } }'>Complete</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <input disabled type="color" value="#@item.Color"/>
+                        </td>
+                        <td>
+                            @item.Created_at
+                        </td>
+                        <td>
+                            <a asp-action="DeleteProposition" asp-route-id="@item.Id" asp-route-model="chrome" class="btn btn-danger">
+                                <i class="glyphicon glyphicon-trash"></i>  Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+        </div>
 
 @section Scripts {
+    <script src="~/js/propsTab.js" asp-append-version="true"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

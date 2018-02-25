@@ -39,8 +39,24 @@ namespace ChromiumSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            List<AquaProposalModel> Aqua = _db.AquaProposalModels.Select(y => y).ToList();
+            //Aqua.ForEach(async y => y.User = await _userManager.FindByIdAsync(y.UserId).ConfigureAwait(true));
+            foreach(var aq in Aqua)
+            {
+                aq.User =await _userManager.FindByIdAsync(aq.UserId);
+            }
+            ViewBag.AquaPropositions = Aqua;
+
+            List<ChromeProposalModel> Chrome = _db.ChromeProposalModels.Select(x => x).ToList();
+            //Chrome.ForEach(async x => x.User = await _userManager.FindByIdAsync(x.UserId).ConfigureAwait(true));
+            foreach (var ch in Chrome)
+            {
+                ch.User = await _userManager.FindByIdAsync(ch.UserId);
+            }
+            ViewBag.ChromePropositions = Chrome;
+
             return View();
         }
 
@@ -178,7 +194,7 @@ namespace ChromiumSite.Controllers
                 _db.GalleryImages.Add(Image);
             }
             await _db.SaveChangesAsync();
-            return Json(new { status = true, Message = "Account created." });
+            return RedirectToAction(nameof(GalleryManage));
         }
 
         [HttpGet]
@@ -192,5 +208,42 @@ namespace ChromiumSite.Controllers
                 }
             return RedirectToAction(nameof(GalleryManage));
         }
+
+        [HttpGet]
+        public IActionResult ChangeStatus(string id,string status,string model)
+        {
+            if (model == "chrome")
+            {
+                var chrome = _db.ChromeProposalModels.Where(x => x.Id == int.Parse(id)).First();
+                chrome.Status = status;
+                _db.ChromeProposalModels.Update(chrome);
+            }
+            else
+            {
+                var aqua = _db.AquaProposalModels.Where(x => x.Id == int.Parse(id)).First();
+                aqua.Status = status;
+                _db.AquaProposalModels.Update(aqua);
+            }
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult DeleteProposition(int id,string model)
+        {
+            if (model == "chrome")
+            {
+                var chrome = _db.ChromeProposalModels.Where(x => x.Id == id).First();
+                _db.ChromeProposalModels.Remove(chrome);
+            }
+            else
+            {
+                var aqua = _db.AquaProposalModels.Where(x => x.Id == id).First();
+                _db.AquaProposalModels.Remove(aqua);
+            }
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

@@ -34,9 +34,5 @@
             // Add the button to the file preview element.
             file.previewElement.appendChild(removeButton);
         });
-
-        this.on('sendingmultiple', function (data, xhr, formData) {
-            formData.append("Username", $("#Username").val());
-        });
     }
 };
