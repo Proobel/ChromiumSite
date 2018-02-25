@@ -28,7 +28,7 @@ namespace ChromiumSite.Controllers
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             ApplicationDbContext db,
-             IFileWorker fileWorker
+            IFileWorker fileWorker
             )
         {
             _userManager = userManager;
@@ -154,7 +154,43 @@ namespace ChromiumSite.Controllers
             return RedirectToAction(nameof(UserChanges));
         }
 
+        [HttpGet]
+        public IActionResult GalleryManage()
+        {
+            List<GalleryImageViewModel>model = new List<GalleryImageViewModel>();
+            model = _db.GalleryImages.Select(u => new GalleryImageViewModel
+            {
+                Id= u.Id,
+                Path = u.PathToImage
+            }).ToList();
+            return View(model);
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> UploadImage()
+        {
+            foreach (var imageFile in Request.Form.Files)
+            {
+                var Image = new GalleryImage()
+                {
+                    PathToImage = await _fileWorker.SaveImgAsync("/images/Gallery/", imageFile)
+                };
+                _db.GalleryImages.Add(Image);
+            }
+            await _db.SaveChangesAsync();
+            return Json(new { status = true, Message = "Account created." });
+        }
 
+        [HttpGet]
+        public async Task<IActionResult> DeletePhoto(int Id)
+        {
+            var galleryImage = await _db.GalleryImages.Where(x => x.Id == Id).FirstAsync();
+                if (galleryImage != null)
+                {
+                _db.GalleryImages.Remove(galleryImage);
+                _db.SaveChanges();
+                }
+            return RedirectToAction(nameof(GalleryManage));
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace ChromiumSite.Views.Admin
 
         public static string UserChanges => "UserChanges";
 
-        public static string ExternalLogins => "ExternalLogins";
+        public static string GalleryManage => "GalleryManage";
 
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
@@ -27,7 +27,7 @@ namespace ChromiumSite.Views.Admin
 
         public static string UserChangesNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserChanges);
 
-        public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
+        public static string GalleryManageNavClass(ViewContext viewContext) => PageNavClass(viewContext, GalleryManage);
 
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
 

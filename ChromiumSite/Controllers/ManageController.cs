@@ -31,7 +31,6 @@ namespace ChromiumSite.Controllers
         private readonly UrlEncoder _urlEncoder;
         private readonly ApplicationDbContext _db;
         private readonly IFileWorker _fileWorker;
-        IHostingEnvironment _hostingEnvironment;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
@@ -43,7 +42,6 @@ namespace ChromiumSite.Controllers
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder,
           ApplicationDbContext dbContext,
-          IHostingEnvironment hostingEnvironment,
           IFileWorker fileWorker
             )
         {
@@ -53,7 +51,6 @@ namespace ChromiumSite.Controllers
             _logger = logger;
             _urlEncoder = urlEncoder;
             _db = dbContext;
-            _hostingEnvironment = hostingEnvironment;
             _fileWorker = fileWorker;
         }
 

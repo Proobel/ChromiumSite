@@ -1,0 +1,71 @@
+﻿@model IEnumerable<GalleryImageViewModel>
+@using ChromiumSite.Models.AdminViewModels
+@{
+    ViewData["Title"] = "Gallery Manager";
+    ViewData.AddActivePage(ManageNavPages.GalleryManage);
+}
+
+<h4>@ViewData["Title"]</h4>
+<div class="panel panel-primary">
+    <div class="panel-heading panel-head">Images</div>
+    <div class="panel-body">
+        <div class="top-buffer"></div>
+        <br />
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Preview</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="col-lg-3 col-md-4 col-xs-6">
+                                <img class="img-responsive img-thumbnail " src="@item.Path" alt="">
+                        </div>
+                    </td>
+                    <td>
+                        <a id="deletePhoto" asp-action="DeletePhoto" asp-route-id="@item.Id" class="btn btn-danger">
+                            <i class="glyphicon glyphicon-trash"></i>  Delete
+                        </a>
+                    </td>
+                </tr>
+        }
+            </tbody>
+        </table>
+
+        @* Single Addition *@
+        @*<div id="dropzone">
+            <form asp-action="UploadImage" method="post" class="dropzone needsclick dz-clickable" enctype="multipart/form-data">
+                <div class="dz-message needsclick">
+                    Drop files here or click to upload.<br>
+                </div>
+            </form>
+        </div>*@
+
+        @* Multiple Addition *@
+        <form enctype="multipart/form-data" method="POST">
+            <div class="dropzone" id="my-dropzone" name="mainFileUploader">
+                <div class="fallback">
+                    <input name="file" type="file" multiple />
+                </div>
+            </div>
+        </form>
+        <br />
+        <div>
+            <button class="btn btn-primary" type="submit" id="submit-all"> <i class="glyphicon glyphicon-plus"></i> Upload</button>
+        </div>
+
+    </div>
+</div>
+@section scripts
+    {
+    <script src="~/lib/dropzone/dropzone.min.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/lib/dropzone/dropzone.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/dropzone/basic.css" asp-append-version="true" />
+
+    <script src="~/js/dropzoneCustomize.js" asp-append-version="true"></script>
+}

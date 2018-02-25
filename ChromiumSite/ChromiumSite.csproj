@@ -20,6 +20,24 @@
     <Compile Remove="Data\Migrations\20180219064848_Initial.Designer.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\images\Gallery\1.jpg" />
+    <Content Remove="wwwroot\images\Gallery\10.jpg" />
+    <Content Remove="wwwroot\images\Gallery\11.jpg" />
+    <Content Remove="wwwroot\images\Gallery\12.jpg" />
+    <Content Remove="wwwroot\images\Gallery\13.jpg" />
+    <Content Remove="wwwroot\images\Gallery\14.jpg" />
+    <Content Remove="wwwroot\images\Gallery\15.jpg" />
+    <Content Remove="wwwroot\images\Gallery\2.jpg" />
+    <Content Remove="wwwroot\images\Gallery\3.jpg" />
+    <Content Remove="wwwroot\images\Gallery\4.jpg" />
+    <Content Remove="wwwroot\images\Gallery\5.jpg" />
+    <Content Remove="wwwroot\images\Gallery\6.jpg" />
+    <Content Remove="wwwroot\images\Gallery\7.jpg" />
+    <Content Remove="wwwroot\images\Gallery\8.jpg" />
+    <Content Remove="wwwroot\images\Gallery\9.jpg" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.0.0" />
@@ -38,6 +56,10 @@
     <Folder Include="wwwroot\images\useraqua\" />
     <Folder Include="wwwroot\images\aquatemplates\" />
     <Folder Include="wwwroot\images\Gallery\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\dropzone\dropzone.min.js" />
   </ItemGroup>
 
 </Project>

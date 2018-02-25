@@ -42,7 +42,7 @@ namespace ChromiumSite
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-
+            services.AddTransient<IFileWorker, FileWorker>();
             services.AddMvc();
         }
 

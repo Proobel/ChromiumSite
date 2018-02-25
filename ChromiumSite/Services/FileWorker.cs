@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChromiumSite.Services
 {
-    public class FileWorker: IFileWorker
+    public class FileWorker : IFileWorker
     {
         IHostingEnvironment _hostingEnvironment;
 
