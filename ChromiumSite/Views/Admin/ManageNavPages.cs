@@ -17,7 +17,7 @@ namespace ChromiumSite.Views.Admin
 
         public static string GalleryManage => "GalleryManage";
 
-        public static string TwoFactorAuthentication => "TwoFactorAuthentication";
+        public static string ManageAquaprint => "ManageAquaprint";
 
         public static string AquaProposition => "AquaProposition";
 
@@ -29,7 +29,7 @@ namespace ChromiumSite.Views.Admin
 
         public static string GalleryManageNavClass(ViewContext viewContext) => PageNavClass(viewContext, GalleryManage);
 
-        public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
+        public static string ManageAquaprintNavClass(ViewContext viewContext) => PageNavClass(viewContext, ManageAquaprint);
 
         public static string AquaPropositionNavClass(ViewContext viewContext) => PageNavClass(viewContext, AquaProposition);
 

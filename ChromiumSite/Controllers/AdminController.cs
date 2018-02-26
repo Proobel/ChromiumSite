@@ -74,7 +74,7 @@ namespace ChromiumSite.Controllers
             return View(model);
         }
 
-        [HttpGet]
+    [HttpGet]
         public async Task<IActionResult> EditUser(string id)
         {
             EditUserViewModel model = new EditUserViewModel();
@@ -245,5 +245,55 @@ namespace ChromiumSite.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public IActionResult ManageAquaprint()
+        {
+            List<AquaImageViewModel> model = new List<AquaImageViewModel>();
+            model = _db.AquaImages.Select(u => new AquaImageViewModel
+            {
+                Id = u.Id,
+                Path = u.PathToImage,
+                Is_Template = u.Is_Template
+            }).ToList();
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ChangeTemplate(int Id)
+        {
+            var model = _db.AquaImages.Where(x => x.Id == Id).First();
+            if (model.Is_Template) { model.Is_Template = false; } else { model.Is_Template = true; }
+            _db.AquaImages.Update(model);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(ManageAquaprint));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteTemplate(int Id)
+        {
+            var aquaImage = await _db.AquaImages.Where(x => x.Id == Id).FirstAsync();
+            if (aquaImage != null)
+            {
+                _db.AquaImages.Remove(aquaImage);
+                _db.SaveChanges();
+            }
+            return RedirectToAction(nameof(ManageAquaprint));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadTemplates(AquaImageViewModel aqua)
+        {
+            foreach (var imageFile in Request.Form.Files)
+            {
+                var Image = new AquaImage()
+                {
+                    Is_Template = true,
+                    PathToImage = await _fileWorker.SaveImgAsync("/images/aquatemplates/", imageFile)
+                };
+                _db.AquaImages.Add(Image);
+            }
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(ManageAquaprint));
+        }
     }
 }

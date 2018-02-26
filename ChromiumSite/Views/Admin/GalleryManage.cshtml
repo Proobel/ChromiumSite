@@ -47,10 +47,10 @@
         </div>*@
 
         @* Multiple Addition *@
-        <form enctype="multipart/form-data" method="POST">
+        <form asp-action="UploadTemplates" enctype="multipart/form-data" method="POST">
             <div class="dropzone" id="my-dropzone" name="mainFileUploader">
                 <div class="fallback">
-                    <input name="file" type="file" multiple />
+                    <input name="File" type="file" multiple />
                 </div>
             </div>
         </form>
@@ -66,6 +66,6 @@
     <script src="~/lib/dropzone/dropzone.min.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="~/lib/dropzone/dropzone.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/dropzone/basic.css" asp-append-version="true" />
-
     <script src="~/js/dropzoneCustomize.js" asp-append-version="true"></script>
+    <script>customize("/Admin/UploadImage");</script>
 }

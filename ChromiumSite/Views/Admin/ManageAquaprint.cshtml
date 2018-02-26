@@ -1,0 +1,76 @@
+﻿@model IEnumerable<AquaImageViewModel>
+@using ChromiumSite.Models.AdminViewModels
+@{
+    ViewData["Title"] = "Aquaprint Template Manager";
+    ViewData.AddActivePage(ManageNavPages.ManageAquaprint);
+}
+
+<h4>@ViewData["Title"]</h4>
+<div class="panel panel-primary">
+    <div class="panel-heading panel-head">Images</div>
+    <div class="panel-body">
+        <div class="top-buffer"></div>
+        <br />
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Preview</th>
+                    <th>Is Template</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="col-lg-3 col-md-4 col-xs-6">
+                                <img class="img-responsive img-thumbnail " src="@item.Path" alt="">
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.Is_Template)
+                            {
+                                <i class="glyphicon glyphicon-ok"></i>
+                            }
+                            else
+                            {
+                                <i class="glyphicon glyphicon-remove"></i>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="ChangeTemplate" asp-route-id="@item.Id" class="btn btn-warning">
+                                <i class="glyphicon glyphicon-transfer"></i>  Change
+                            </a>
+                            <a asp-action="DeleteTemplate" asp-route-id="@item.Id" class="btn btn-danger">
+                                <i class="glyphicon glyphicon-trash"></i>  Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @* TODO Косяк с добавлением из-за поля в Бд привязывающего к картинке запрос*@
+        <form enctype="multipart/form-data" method="POST">
+            <div class="dropzone" id="my-dropzone" name="mainFileUploader">
+                <div class="fallback">
+                    <input name="file" type="file" multiple />
+                </div>
+            </div>
+        </form>
+        <br />
+        <div>
+            <button class="btn btn-primary" type="submit" id="submit-all"> <i class="glyphicon glyphicon-plus"></i> Upload</button>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script src="~/lib/dropzone/dropzone.min.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/lib/dropzone/dropzone.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/dropzone/basic.css" asp-append-version="true" />
+    <script src="~/js/dropzoneCustomize.js" asp-append-version="true"></script>
+    <script>customize("/Admin/UploadTemplates");</script>
+}
