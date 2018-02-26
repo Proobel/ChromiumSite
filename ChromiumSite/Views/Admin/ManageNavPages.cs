@@ -19,9 +19,8 @@ namespace ChromiumSite.Views.Admin
 
         public static string ManageAquaprint => "ManageAquaprint";
 
-        public static string AquaProposition => "AquaProposition";
+        public static string HomeNews => "HomeNews";
 
-        public static string ChromeProposition => "ChromeProposition";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
@@ -31,9 +30,7 @@ namespace ChromiumSite.Views.Admin
 
         public static string ManageAquaprintNavClass(ViewContext viewContext) => PageNavClass(viewContext, ManageAquaprint);
 
-        public static string AquaPropositionNavClass(ViewContext viewContext) => PageNavClass(viewContext, AquaProposition);
-
-        public static string ChromePropositionNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChromeProposition);
+        public static string HomeNewsNavClass(ViewContext viewContext) => PageNavClass(viewContext, HomeNews);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {

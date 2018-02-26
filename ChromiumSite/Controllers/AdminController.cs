@@ -295,5 +295,28 @@ namespace ChromiumSite.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(ManageAquaprint));
         }
+
+        [HttpGet]
+        public IActionResult HomeNews()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBlog(HomeBlogViewModel home)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var Home = new HomeBlog()
+            {
+                Title=home.Title,
+                Content=home.Content,
+                ImagePath= await _fileWorker.SaveImgAsync("/images/Blog/", home.File),
+                User = user ?? throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'."),
+                UserId = user.Id
+        };
+            _db.HomeBlogs.Add(Home);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(HomeNews));
+        }
     }
 }

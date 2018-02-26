@@ -14,6 +14,7 @@ namespace ChromiumSite.Data
         public DbSet<AquaProposalModel> AquaProposalModels { get; set; }
         public DbSet<ChromeProposalModel> ChromeProposalModels { get; set; }
         public DbSet<GalleryImage> GalleryImages { get; set; }
+        public DbSet<HomeBlog> HomeBlogs { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -26,6 +27,7 @@ namespace ChromiumSite.Data
 
             builder.Entity<AquaProposalModel>().Property(x => x.Created_at).HasDefaultValueSql("getdate()");
             builder.Entity<ChromeProposalModel>().Property(x => x.Created_at).HasDefaultValueSql("getdate()");
+            builder.Entity<HomeBlog>().Property(x => x.Created_at).HasDefaultValueSql("getdate()");
 
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.

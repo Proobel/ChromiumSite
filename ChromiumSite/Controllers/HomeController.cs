@@ -22,7 +22,9 @@ namespace ChromiumSite.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<HomeBlog> home = new List<HomeBlog>();
+            home = _db.HomeBlogs.Select(u => u).ToList();
+            return View(home);
         }
 
         public IActionResult About()

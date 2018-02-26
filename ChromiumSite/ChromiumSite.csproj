@@ -56,6 +56,8 @@
     <Folder Include="wwwroot\images\useraqua\" />
     <Folder Include="wwwroot\images\aquatemplates\" />
     <Folder Include="wwwroot\images\Gallery\" />
+    <Folder Include="wwwroot\images\Blog\" />
+    <Folder Include="wwwroot\lib\CLEditor\" />
   </ItemGroup>
 
   <ItemGroup>
