@@ -8,13 +8,24 @@
 <div class="container">
     <h1 class="my-4 text-center text-lg-left">Thumbnail Gallery</h1>
     <div class="row text-center text-lg-left">
-        @foreach (var img in Model)
-        {
-            <div class="col-lg-3 col-md-4 col-xs-6">
-                <a href="#" class="d-block mb-4 h-100">
-                    <img class="img-responsive img-thumbnail " src="@img.Path" alt="@img.Id">
-                </a>
-            </div>
-        }
-    </div>
+        <div class="mosaicflow" data-item-height-calculation="attribute">
+            @foreach (var img in Model)
+            {
+                    <div class="mosaicflow__item">
+                        <a data-fancybox="gallery" href="@img.Path">
+                        <img class="img-responsive" src="@img.Path" alt="">
+                            @*TODO previev to images*@
+                        </a>
+                    </div>
+            }
+        </div>
+        </div>
 </div>
+@section scripts
+    {
+
+    <link rel="stylesheet" href="~/lib/fancybox/dist/jquery.fancybox.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/mosaic_flow.css" asp-append-version="true" />
+    <script src="~/lib/fancybox/dist/jquery.fancybox.min.js" asp-append-version="true"></script>
+    <script src="~/lib/mosaicflow/jquery.mosaicflow.min.js" asp-append-version="true"></script>
+}

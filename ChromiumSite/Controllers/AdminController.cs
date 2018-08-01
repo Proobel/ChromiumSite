@@ -308,8 +308,8 @@ namespace ChromiumSite.Controllers
             var user = await _userManager.GetUserAsync(User);
             var Home = new HomeBlog()
             {
-                Title=home.Title,
-                Content=home.Content,
+                Title = home.Title,
+                Content = Request.Form["input"],
                 ImagePath= await _fileWorker.SaveImgAsync("/images/Blog/", home.File),
                 User = user ?? throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'."),
                 UserId = user.Id

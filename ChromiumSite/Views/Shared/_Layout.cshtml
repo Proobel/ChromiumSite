@@ -43,6 +43,7 @@
         @RenderBody()
         <hr />
         <footer>
+            @await Html.PartialAsync("_SelectLanguagePartial")
             <p>&copy; 2018 - ChromiumSite</p>
         </footer>
     </div>

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ChromiumSite.Data;
 using ChromiumSite.Models;
 using ChromiumSite.Services;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace ChromiumSite
 {
@@ -39,6 +40,13 @@ namespace ChromiumSite
             }).AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+
+            //Локализация
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            services.AddMvc()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();

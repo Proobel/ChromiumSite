@@ -58,6 +58,7 @@
     <Folder Include="wwwroot\images\Gallery\" />
     <Folder Include="wwwroot\images\Blog\" />
     <Folder Include="wwwroot\lib\CLEditor\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
 
   <ItemGroup>

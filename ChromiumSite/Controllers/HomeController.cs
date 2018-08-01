@@ -8,6 +8,9 @@ using ChromiumSite.Models;
 using System.Drawing;
 using ChromiumSite.Data;
 using ChromiumSite.Models.AdminViewModels;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
+using NuGet;
 
 namespace ChromiumSite.Controllers
 {
@@ -37,7 +40,6 @@ namespace ChromiumSite.Controllers
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
@@ -57,5 +59,15 @@ namespace ChromiumSite.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+            return LocalRedirect(returnUrl);
+        }
     }
 }
